@@ -128,7 +128,7 @@ export default function MyBilling() {
 
   return (
     <div>
-      <section className="absolute top-[321px] left-[251px] w-[1094px] h-auto overflow-y-auto rounded-[8px] border border-[#FFFFFF1F] bg-[#FFFFFF0A] p-[32px] flex flex-col  mb-5">
+      <section className="absolute top-[321px] left-[251px] w-[1094px] h-auto overflow-y-auto rounded-[8px] border-[1px] border-solid border-[#FFFFFF1F] bg-[#FFFFFF0A] p-[32px] flex flex-col  ">
 
         {/* Header */}
         <div className="flex justify-center items-center w-[173px] h-[38px] rounded-[4px] border-b border-[#0000004D] bg-[#0000004D] px-[12px] py-[4px] opacity-100">
@@ -204,61 +204,43 @@ export default function MyBilling() {
           </div>
           {/* Billing form */}
            {/* Billing History Section */}
-        <div className="mb-8">
-         
-          
-          {/* Table */}
-          <div className="w-full rounded-[8px] overflow-hidden border border-[#FFFFFF33]">
-            {/* Table Header */}
-            <div className="flex bg-[#FFFFFF1A] text-white text-[14px] font-medium">
-              <div className="flex-1 p-3 border-r border-[#FFFFFF33]">Date</div>
-              <div className="flex-1 p-3 border-r border-[#FFFFFF33]">Amount</div>
-              <div className="flex-1 p-3 border-r border-[#FFFFFF33]">Payment Method</div>
-              <div className="flex-1 p-3 border-r border-[#FFFFFF33]">Status</div>
-              <div className="flex-1 p-3">Invoice</div>
-            </div>
-            
-            {/* Table Rows */}
-            <div className="bg-[#FFFFFF0D]">
-              {billingHistory.length > 0 ? (
-                billingHistory.map((bill, index) => (
-                  <div key={index} className="flex text-white text-[14px] border-b border-[#FFFFFF33] last:border-b-0">
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33]">{bill.date || 'N/A'}</div>
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33]">${bill.amount || 'XXXX'}</div>
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33]">{bill.payment_method || 'Credit Card'}</div>
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33] text-[#00FF00]">{bill.status || 'Completed'}</div>
-                    <div className="flex-1 p-3 text-[#9747FF] cursor-pointer hover:underline">View</div>
-                  </div>
-                ))
-              ) : (
-                // Fallback data if no billing history
-                <>
-                  <div className="flex text-white text-[14px] border-b border-[#FFFFFF33]">
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33]">01-Mar-25</div>
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33]">$XXXX</div>
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33]">Credit Card</div>
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33] text-[#00FF00]">Completed</div>
-                    <div className="flex-1 p-3 text-[#9747FF] cursor-pointer hover:underline">View</div>
-                  </div>
-                  <div className="flex text-white text-[14px] border-b border-[#FFFFFF33]">
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33]">01-Feb-25</div>
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33]">$XXXX</div>
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33]">Credit Card</div>
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33] text-[#00FF00]">Completed</div>
-                    <div className="flex-1 p-3 text-[#9747FF] cursor-pointer hover:underline">View</div>
-                  </div>
-                  <div className="flex text-white text-[14px]">
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33]">01-Jan-25</div>
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33]">$XXXX</div>
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33]">Credit Card</div>
-                    <div className="flex-1 p-3 border-r border-[#FFFFFF33] text-[#00FF00]">Completed</div>
-                    <div className="flex-1 p-3 text-[#9747FF] cursor-pointer hover:underline">View</div>
-                  </div>
-                </>
-              )}
-            </div>
+      <div className="mb-8">
+  <h3 className="text-[18px] poppins-font text-white mb-4 text-center mx-auto">
+    Billing History
+  </h3>
+  <div className="w-[658px] border-[1px] border-solid border-[#6D6D6D33] mx-auto"></div>
+
+  {/* Table */}
+  <div className="w-full rounded-[8px] overflow-hidden mt-4">
+    {/* Table Header */}
+    <div className="flex bg-[#9747FF1F] text-white text-[14px]  font-medium">
+      <div className="flex-1 p-3 poppins-font">Date</div>
+      <div className="flex-1 p-3 poppins-font">Amount</div>
+      <div className="flex-1 p-3 poppins-font">Payment Method</div>
+      <div className="flex-1 p-3 poppins-font">Status</div>
+      <div className="flex-1 p-3 poppins-font">Invoice</div>
+    </div>
+
+    {/* Table Rows */}
+    <div className="">
+      {(billingHistory.length > 0 ? billingHistory : Array(3).fill({})).map(
+        (bill, index) => (
+         <div
+  key={index}
+  className="flex  text-[14px] border-b border-solid border-[#444] "
+>
+            <div className="flex-1 p-3 text-[#B0B0B0]  poppins-font">{bill.date || '01-Mar-25'}</div>
+            <div className="flex-1 p-3 text-[#B0B0B0]  poppins-font">${bill.amount || 'XXXX'}</div>
+            <div className="flex-1 p-3 text-[#B0B0B0]  poppins-font">{bill.payment_method || 'Credit Card'}</div>
+            <div className="flex-1 p-3 text-[#B0B0B0] poppins-font">{bill.status || 'Completed'}</div>
+            <div className="flex-1 p-3 text-[#B0B0B0] cursor-pointer hover:underline poppins-font">View</div>
           </div>
-        </div>
+        )
+      )}
+    </div>
+  </div>
+</div>
+
 
         </div>
       </section>
