@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import HeroProfile from "./HeroProfile";
 import Myplan from "./Myplan";
 import Mybilling from "./Mybilling";
@@ -6,11 +7,11 @@ import HelpCenter from "./HelpCenter";
 import bg from "../../assets/afterHome/ProgileBg.png";
 
 export default function Profile() {
-  const [active, setActive] = useState("My Profile"); // track active menu
+  const [active, setActive] = useState("My Profile"); 
+   const navigate = useNavigate();
 
   return (
-   <section className="w-full min-h-screen opacity-100 bg-black pt-[82px] -mt-[82px] relative">
-
+    <section className="w-full h-auto opacity-100 bg-black pt-[82px] -mt-[82px] overflow-hidden relative">
       {/* Banner Section */}
       <div className="w-[1347px] h-[188px] opacity-100 mx-auto relative">
         <img
@@ -32,9 +33,12 @@ export default function Profile() {
           </p>
 
           {/* Button */}
-          <button className="w-[219px] h-[42px] rounded-full px-[30px] py-[10px] text-white font-medium bg-gradient-to-b from-[#FBA716] to-[#90600D] mt-3">
-            Upgrade Now
-          </button>
+            <button
+      className="w-[219px] h-[42px] rounded-full px-[30px] py-[10px] text-white font-medium bg-gradient-to-b from-[#FBA716] to-[#90600D] mt-3"
+      onClick={() => navigate("<AfterUiPlan />")}
+    >
+      Upgrade Now
+    </button>
         </div>
       </div>
 
@@ -78,14 +82,21 @@ export default function Profile() {
       </div>
 
       {/* RIGHT CONTENT AREA */}
-      <div>
-        {active === "My Profile" && <HeroProfile />}
-        {active === "My Plan" && <Myplan />}
-        {active === "Billings" && <Mybilling />}
-        {active === "Help Center" && <HelpCenter />}
-      </div>
-
-      {/* ---------------- BLUR FOOTER ---------------- */}
+    <div
+  className={`${
+    active === "Billings"
+      ? "min-h-[244px]"
+      : active === "Help Center"
+      ? "min-h-[401px]"
+      : "min-h-[0]"
+  }`}
+>
+  {active === "My Profile" && <HeroProfile />}
+  {active === "My Plan" && <Myplan />}
+  {active === "Billings" && <Mybilling />}
+  {active === "Help Center" && <HelpCenter />}
+</div>
+ {/* ---------------- BLUR FOOTER ---------------- */}
    <div
   className="absolute"
   style={{
