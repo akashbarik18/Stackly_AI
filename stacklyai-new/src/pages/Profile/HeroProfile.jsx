@@ -26,18 +26,17 @@ export default function HeroProfile() {
 
   const [loading, setLoading] = useState(true);
 
-  // Password visibility toggles
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  // Change Password Modal toggle
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
-
-  // Forgot Password Modal toggle
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
   const [forgotEmail, setForgotEmail] = useState("");
+
+  // NEW STATE: Editing mode
+  const [isEditing, setIsEditing] = useState(false);
 
   // -------------------------
   // Fetch User Data
@@ -142,6 +141,7 @@ export default function HeroProfile() {
       });
 
       toast.success('Profile updated successfully!');
+      setIsEditing(false); // turn off editing after save
 
       if (response.data.user?.profile_pic) {
         setUserData(prev => ({
@@ -170,6 +170,7 @@ export default function HeroProfile() {
       confirm_password: '',
       profile_pic: null
     }));
+    setIsEditing(false);
   };
 
   // -------------------------
@@ -246,20 +247,24 @@ export default function HeroProfile() {
             </div>
           </div>
 
-          <div className="w-[32px] h-[32px] rounded-full border-[0.5px] border-solid border-[#8A38F533] bg-[#7A1FF133] shadow-[0_0_6px_0_#FFFFFF66] backdrop-blur-[4px] flex items-center justify-center cursor-pointer">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="w-[11px] h-[12px] text-white"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
-  </svg>
-</div>
+          {/* Edit Icon */}
+          <div
+            className="w-[32px] h-[32px] rounded-full border-[0.5px] border-solid border-[#8A38F533] bg-[#7A1FF133] shadow-[0_0_6px_0_#FFFFFF66] backdrop-blur-[4px] flex items-center justify-center cursor-pointer"
+            onClick={() => setIsEditing(true)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-[11px] h-[12px] text-white"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+            </svg>
+          </div>
         </div>
 
         {/* Bottom Content */}
@@ -272,7 +277,11 @@ export default function HeroProfile() {
               </div>
             </div>
 
-            <label className="flex items-center gap-2 text-[14px] text-[#8A38F5] cursor-pointer -mt-2 -ml-3">
+            <label
+              className={`flex items-center gap-2 text-[14px] text-[#8A38F5] cursor-pointer -mt-2 -ml-3 ${
+                !isEditing ? "pointer-events-none opacity-50" : ""
+              }`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-4 h-4"
@@ -301,9 +310,12 @@ export default function HeroProfile() {
                 <input
                   type="text"
                   name="first_name"
-                  className="w-[321px]  h-[48px] rounded-[12px] bg-[#FFFFFF0D] border-[1px] border-solid border-[#FFFFFF33] px-[16px] text-white focus:border-[#8A38F5] focus:outline-none"
                   value={userData.first_name}
                   onChange={handleChange}
+                  readOnly={!isEditing}
+                  className={`w-[321px] h-[48px] rounded-[12px] bg-[#FFFFFF0D] border-[1px] border-solid border-[#FFFFFF33] px-[16px] text-white focus:border-[#8A38F5] focus:outline-none ${
+                    !isEditing ? "opacity-60 cursor-not-allowed" : ""
+                  }`}
                 />
               </div>
               <div className="flex-1">
@@ -311,23 +323,29 @@ export default function HeroProfile() {
                 <input
                   type="text"
                   name="last_name"
-                  className="w-[321px]   h-[48px] rounded-[12px] bg-[#FFFFFF0D] border-[1px] border-solid border-[#FFFFFF33] px-[16px] text-white focus:border-[#8A38F5] focus:outline-none"
                   value={userData.last_name}
                   onChange={handleChange}
+                  readOnly={!isEditing}
+                  className={`w-[321px] h-[48px] rounded-[12px] bg-[#FFFFFF0D] border-[1px] border-solid border-[#FFFFFF33] px-[16px] text-white focus:border-[#8A38F5] focus:outline-none ${
+                    !isEditing ? "opacity-60 cursor-not-allowed" : ""
+                  }`}
                 />
               </div>
             </div>
 
-            {/* Email & Phone Number */}
+            {/* Email & Phone */}
             <div className="flex gap-[27px]">
               <div className="flex-1">
                 <label className="block text-[16px] text-[#A0A0A0] mb-[8px]">Email</label>
                 <input
                   type="email"
                   name="email"
-                  className="w-[321px]   h-[48px] rounded-[12px] bg-[#FFFFFF0D] border-[1px] border-solid border-[#FFFFFF33] px-[16px] text-white focus:border-[#8A38F5] focus:outline-none"
                   value={userData.email}
                   onChange={handleChange}
+                  readOnly={!isEditing}
+                  className={`w-[321px] h-[48px] rounded-[12px] bg-[#FFFFFF0D] border-[1px] border-solid border-[#FFFFFF33] px-[16px] text-white focus:border-[#8A38F5] focus:outline-none ${
+                    !isEditing ? "opacity-60 cursor-not-allowed" : ""
+                  }`}
                 />
               </div>
               <div className="flex-1">
@@ -335,9 +353,12 @@ export default function HeroProfile() {
                 <input
                   type="tel"
                   name="phone_number"
-                  className="w-[321px]  h-[48px] rounded-[12px] bg-[#FFFFFF0D] border-[1px] border-solid border-[#FFFFFF33] px-[16px] text-white focus:border-[#8A38F5] focus:outline-none"
                   value={userData.phone_number}
                   onChange={handleChange}
+                  readOnly={!isEditing}
+                  className={`w-[321px] h-[48px] rounded-[12px] bg-[#FFFFFF0D] border-[1px] border-solid border-[#FFFFFF33] px-[16px] text-white focus:border-[#8A38F5] focus:outline-none ${
+                    !isEditing ? "opacity-60 cursor-not-allowed" : ""
+                  }`}
                 />
               </div>
             </div>
@@ -368,36 +389,29 @@ export default function HeroProfile() {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-[12px] top-1/2 -translate-y-1/2"
                   >
-                    {showPassword ? (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-[#9747FF] hover:text-purple-300 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                    ) : (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-[#9747FF] hover:text-purple-300 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                      </svg>
-                    )}
-                  </button>
-                </div>
-
-                <div className="w-[738px] flex justify-end mt-[4px]">
-                  <button
-                    className="w-[106px] h-[18px] text-[#9747FF] text-[12px] font-normal underline"
-                    style={{
-                      fontFamily: 'Poppins, sans-serif',
-                      lineHeight: '100%',
-                      textDecorationStyle: 'solid',
-                      textDecorationThickness: '0%',
-                      textDecorationOffset: '19%',
-                    }}
-                    onClick={() => setShowForgotPasswordModal(true)}
-                  >
-                    Forgot Password?
+                    {/* Eye Icon */}
                   </button>
                 </div>
               </div>
             </div>
+
+            {/* Save / Cancel Buttons */}
+            {isEditing && (
+              <div className="flex justify-end gap-2 mt-4">
+                <button
+                  className="px-4 py-2 rounded bg-gray-600 text-white"
+                  onClick={handleDiscard}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 rounded bg-[#8A38F5] text-white"
+                  onClick={handleSubmit}
+                >
+                  Save
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -437,48 +451,16 @@ export default function HeroProfile() {
 
             <div className="flex justify-end gap-2 mt-2">
               <button
-                className="px-4 py-2 rounded bg-gray-600 text-white"
+                className="px-3 py-1 rounded bg-gray-600 text-white"
                 onClick={() => setShowChangePasswordModal(false)}
               >
                 Cancel
               </button>
               <button
-                className="px-4 py-2 rounded bg-[#8A38F5] text-white"
+                className="px-3 py-1 rounded bg-[#8A38F5] text-white"
                 onClick={handlePasswordSubmit}
               >
                 Save
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ---------------- Forgot Password Modal ---------------- */}
-      {showForgotPasswordModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-          <div className="bg-[#1A1A1A] p-6 rounded-xl w-[400px] flex flex-col gap-4">
-            <h2 className="text-white text-[18px] font-semibold">Forgot Password</h2>
-
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={forgotEmail}
-              onChange={(e) => setForgotEmail(e.target.value)}
-              className="w-full h-[40px] rounded-[8px] bg-[#FFFFFF0D] border border-[#FFFFFF33] px-3 text-white focus:outline-none focus:border-[#8A38F5]"
-            />
-
-            <div className="flex justify-end gap-2 mt-2">
-              <button
-                className="px-4 py-2 rounded bg-gray-600 text-white"
-                onClick={() => setShowForgotPasswordModal(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="px-4 py-2 rounded bg-[#8A38F5] text-white"
-                onClick={handleForgotPassword}
-              >
-                Send Reset Link
               </button>
             </div>
           </div>
