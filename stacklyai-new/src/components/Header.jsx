@@ -33,6 +33,8 @@ export default function Header() {
     "/resetpopup",
     "/signuppopup",
     "/heroforgetpg",
+     "/afterconformationpage",
+     "/afterconformationpage1",
   ];
   const isHiddenPage = hiddenPages.includes(location.pathname.toLowerCase());
 
@@ -50,7 +52,7 @@ export default function Header() {
         { to: "/", label: "Canvas" },
         { to: "/products", label: "My Spaces" },
         { to: "/pricing", label: "Inspirations" },
-        { to: "/api", label: "FAQs" },
+        { to: "/api", label: "API" },
         { to: "/contact", label: "Contact Us" },
       ]
     : [
@@ -166,27 +168,57 @@ export default function Header() {
               </svg>
 
               <div
-                className="profile-list min-w-[150px] p-4 z-10 hidden group-hover:flex flex-col gap-2 absolute bottom-0 right-0 bg-white rounded-md"
+                className="profile-list min-w-[150px] p-4 z-10 hidden group-hover:flex flex-col gap-2 absolute bottom-0 right-0 bg-[#FFFFFF1F] rounded-md"
                 style={{ transform: "translateY(95%)" }}
               >
-                <NavLink to="/Profile">My Profile</NavLink>
-                <NavLink to="/mycreation">My Creations</NavLink>
+              
+               <div className="w-[173px] h-[24px] flex items-center gap-1 text-white text-[14px] font-normal poppins-font">
+  Activated plan:{" "}
+  <span
+    className="text-[16px] font-normal"
+    style={{
+      background: "linear-gradient(90deg, #8A38F5 0%, rgba(255,255,255,0.9) 50%, #8A38F5 100%)",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+    }}
+  >
+    Basic
+  </span>
+</div>
+
                 <p className="w-full h-[1px] bg-gray-600 my-1"></p>
-                <NavLink
-                  onClick={() => {
-                    // Clear user info from context
-                    setUserInfo({});
-                    // Clear any authentication tokens from storage
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    // Redirect to login
-                    navigate("/sign-in");
-                    // Force refresh if needed (optional)
-                    window.location.reload();
-                  }}
-                >
-                  Logout
-                </NavLink>
+   <NavLink
+  to="/Profile"
+  className={({ isActive }) =>
+    `w-[173px] h-[32px] flex items-center px-3 pt-1 pb-1 rounded-[4px]
+     text-white border-b-2 border-solid border-[#FFFFFF33]
+     hover:bg-[#8A38F5]/30 active:bg-[#8A38F5]/50 transition-colors
+     ${isActive ? 'bg-[#8A38F5]/50' : ''}`
+  }
+>
+  My Profile
+</NavLink>
+
+
+<div
+  onClick={() => {
+    setUserInfo({});
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userInfo');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('persist:root');
+    navigate("/sign-in");
+    window.location.reload();
+  }}
+  className="w-[173px] h-[32px] flex items-center px-3 pt-1 pb-1 rounded-[4px] text-white 
+             hover:bg-[#8A38F5]/30  border-b-2 border-solid border-[#FFFFFF33] transition-colors cursor-pointer"
+>
+  Logout
+</div>
+
+
               </div>
             </div>
 
@@ -204,30 +236,26 @@ export default function Header() {
     opacity: 1,
   }}
 >
- <NavLink
+<NavLink
   to="/sign-in"
-  className="w-[113px] h-[39px] px-[30px] py-[10px] flex items-center justify-center 
+  className="w-[113px] h-[44px] flex items-center justify-center 
              whitespace-nowrap no-underline rounded-[30px] cursor-pointer
-             bg-[#8A38F533] border border-[#FFFFFF1A] 
-             active:bg-[#007b82] active:text-white
-             text-[#FFFFFF] font-inter font-semibold text-[16px] leading-[100%] tracking-[0%] lora-text"
+             bg-[#8A38F533] border-[1px] border-solid border-[#FFFFFF33] 
+              active:text-white
+             text-white poppins-font font-semibold text-[16px] leading-[100%]"
 >
   Sign In
 </NavLink>
-
-
-
-
     <NavLink
   to="/sign-up"
-  className="w-[153px] h-[44px] px-[30px] py-[10px] gap-[10px] flex items-center justify-center 
-             no-underline rounded-[30px] border border-white 
-             bg-[linear-gradient(93.98deg,rgba(138,56,245,0.7)_3.25%,rgba(194,44,162,0.7)_102.29%)] 
-             text-white text-[16px] font-semibold leading-[100%] cursor-pointer 
-             active:opacity-90 focus:outline-none"
->
-  <span className="lora-text">Sign Up</span>
-  <div className="relative w-[24px] h-[24px]">
+ className="w-[153px] h-[44px] px-[20px] flex items-center justify-center 
+whitespace-nowrap no-underline rounded-[30px] border border-[#FFFFFF33] border-solid
+bg-[linear-gradient(93.98deg,rgba(138,56,245,0.7)_3.25%,rgba(194,44,162,0.7)_102.29%)]
+bg-clip-padding text-white text-[16px] font-semibold leading-[100%] cursor-pointer 
+active:opacity-90 focus:outline-none gap-[8px]">
+
+  <span className="poppins-font whitespace-nowrap">Sign Up</span>
+  <div className="relative w-[24px] h-[24px] flex-shrink-0">
     <img
       src={arrow}
       alt="Arrow"
